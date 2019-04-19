@@ -22,6 +22,8 @@ export default class VideoThumbnail extends React.Component {
 
     constructor(props) {
         super(props)
+        const { imageType } = props
+        const imageMediaType = imageType ? imageType : "image/png"
         this.state = {
             dataLoaded: false,      // boolean
             metadataLoaded: false,  // boolean
@@ -36,6 +38,7 @@ export default class VideoThumbnail extends React.Component {
             snapshotAtTime: props.snapshotAtTime,       // number
             thumbnailHandler: props.thumbnailHandler,   // callback function
             videoUrl: props.videoUrl,                   // string
+            imageMediaType,
         }
     }
 
@@ -130,7 +133,7 @@ export default class VideoThumbnail extends React.Component {
                 canvas.getContext('2d').drawImage(video, 0, 0, width, height);
             }
 
-            const thumbnail = canvas.toDataURL('image/png');
+            const thumbnail = canvas.toDataURL(this.state.imageMediaType);
 
             // Remove video & canvas elements (no longer needed)
             video.src = "";  // setting to empty string stops video from loading
